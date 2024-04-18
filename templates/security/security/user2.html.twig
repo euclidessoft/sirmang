@@ -130,6 +130,9 @@
                 <th class="text-center">
                     {{ 'Profession'|trans }}
                 </th>
+                <th class="text-center">
+                    {{ 'Dahira'|trans }}
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -162,6 +165,27 @@
                 <td data-label="{{ 'Profession'|trans }}" class="text-center">
                    <b> <a href="{{ path('security_user', { user : user.id })}}">
                         {{ user.profession }}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Dahira'|trans }}" class="text-center">
+                   <b> <a href="{{ path('security_user', { user : user.id })}}">
+                        {% if user.cellule %}
+                            {{ user.cellule.nom }}
+                           {% else %}
+                                   <div class="dropdown" style="display: inline;">
+                                       <button id="joindre" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                           joindre une cellule
+                                       </button>
+                                       <div class="dropdown-menu" aria-labelledby="joindre">
+                                           {% for cellule in cellules %}
+                                               <a class="dropdown-item" href="{{ path('cellule_joindre_admin',{ user: user.id, cellule : cellule.id})}}" onclick="joindre()">{{ cellule.nom }}</a>
+                                           {% else %}
+                                               Aucune Cellule
+                                           {% endfor %}
+                                       </div>
+                                   </div>
+                           {% endif %}
                     </a></b>
                 </td>
                

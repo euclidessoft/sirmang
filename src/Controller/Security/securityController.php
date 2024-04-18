@@ -338,6 +338,7 @@ class securityController extends AbstractController
 
                 $response = $this->render('security/security/user2.html.twig', [
                     //'users' => $userRepository->findBy(['enabled' => true],['nom' => 'ASC']),
+                    'cellules' => $this->getDoctrine()->getManager()->getRepository(Cellule::class)->findAll(),
                     'users' => $users,
                     'form' => $form->createView(),
                 ]);
@@ -681,14 +682,43 @@ class securityController extends AbstractController
             $form->handleRequest($request);
             
             if ($form->isSubmitted() && $form->isValid()) {
-                 $hashpass = $encoder->encodePassword($user, 'Moda2020');
+                 $hashpass = $encoder->encodePassword($user, 'Passer1234');
                  //$hashpass = $encoder->encodePassword($user, $user->getPassword());
                  //$password = $user->getPassword();
                  $user->setPassword($hashpass);
                  
                 null != $user->getBirthday() ? $user->setDatenaiss(date_create_from_format('j/m/Y', $user->getBirthday())): $user->setDatenaiss(null);//creation de la date de naissance
-                
-                 $user->setRoles(['ROLE_MEMBRE']);
+
+
+                switch ($user->getProfession()) {
+                    case 'President':
+                    {
+                        $user->setRoles(['ROLE_PRESI_CELL']);
+                        break;
+                    }
+                    case 'Vice President':
+                    {
+                        $user->setRoles(['ROLE_PRESI_CELL']);
+                        $user->setClient(true);
+                        break;
+                    }
+                    case 'Secretaire':
+                    {
+                        $user->setRoles(['ROLE_MODIF_ADMIN_CELL']);
+                        break;
+                    }
+                    case 'Tresorier':
+                    {
+                        $user->setRoles(['ROLE_MODIF_FIN_CELL']);
+                        break;
+                    }
+                    case 'commissaire au compte':
+                    {
+                        $user->setRoles(['ROLE_AFF_FIN_CELL']);
+                        $user->setLivreur(true);
+                        break;
+                    }
+                }
                  
                  if($this->get('security.authorization_checker')->isGranted('ROLE_MODIF_ADMIN_CELL') && !$this->get('security.authorization_checker')->isGranted('ROLE_MODIF_ADMIN_BEN'))
                 {

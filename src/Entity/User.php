@@ -21,22 +21,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
-    
+
     const jobs = [
-    'Médecine' => 'Médecine' ,
-    'Pharmacie' => 'Pharmacie' ,
-    'Chirurgie Dentaire' => 'Chirurgie Dentaire' , 
-    'Médecine Vétérinaire' => 'Médecine Vétérinaire', 
-    'Soins Infirmiers' => 'Soins Infirmiers', 
-    'Soins Ostétricaux' => 'Soins Ostétricaux',
-    'Droit' => 'Droit',
-    'Administration' => 'Administration',
-    'Science et Technique' => 'Science et Technique',
-    'Finances' => 'Finances',
-    'Commerce' => 'Commerce',
-    'Agronomie / Agriculture' => 'Agronomie / Agriculture',
-    'Lettres / Sciences humaines' => 'Lettres / Sciences humaines',
-    'Autre' => 'Autre'
+
+        'President' => 'President',
+        'Vice President' => 'Vice President' ,
+        'Secretaire' => 'Secretaire' ,
+        'Tresorier' => 'Tresorier' ,
+        'commissaire au compte' => 'commissaire au compte' ,
     ];
     /*
     

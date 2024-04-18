@@ -218,10 +218,9 @@ class CelluleController extends AbstractController
      */
     public function joindreadmin(User $user, Cellule $cellule): Response
     {
-        if($this->get('security.authorization_checker')->isGranted('ROLE_MODIF_ADMIN_CELL'))
+        if($this->get('security.authorization_checker')->isGranted('ROLE_MODIF_ADMIN_BEN'))
         {
-            if(!$this->get('security.authorization_checker')->isGranted('ROLE_MODIF_ADMIN_BEN') && $user->getZone() != $this->getUser()->getZone())
-            return $this->redirectToRoute('security_login');
+
         
             $user->setCellule($cellule);
             $this->getDoctrine()->getManager()->flush();
