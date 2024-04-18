@@ -1,0 +1,30 @@
+{% extends 'layout4.html.twig' %}
+
+{% block title %}Autreentree{% endblock %}
+
+{% block body %}
+    <h1>Autreentree</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ autreentree.id }}</td>
+            </tr>
+            <tr>
+                <th>Provenance</th>
+                <td>{{ autreentree.provenance }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ autreentree.montant }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('autreentree_index') }}">back to list</a>
+
+    <a href="{{ path('autreentree_edit', {'id': autreentree.id}) }}">edit</a>
+
+    {{ include('autreentree/_delete_form.html.twig') }}
+{% endblock %}

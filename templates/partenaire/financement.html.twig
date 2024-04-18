@@ -1,0 +1,51 @@
+{% extends 'layout4.html.twig' %}
+
+{% block title %}Nouvelle Zonne{% endblock %}
+{% block partenaire %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse /  Partenaire</h3>
+<div class="row">
+    <div class="col-12 text-right mt-3 mb-3">  
+          <a  class="btn btn-primary" href="{{ path('partenaire_show', {'id': partenaire.id }) }}">Retour</a>
+</div>
+</div>
+<div class="partenaire">
+            
+    <table width="100%" class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Phone</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+            <tr>
+                <td>{{ partenaire.nom }}</td>
+                <td>{{ partenaire.adresse }}</td>
+                <td>{{ partenaire.phone }}</td>
+                <td><a class="btn btn-success" href="{{ path('partenaire_edit', {'id': partenaire.id}) }}"><i class="fa fa-edit"></i> Modifier</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    
+
+</div>
+    <div class="col-lg-12">
+        <div class="col-lg-6 offset-lg-3 mt-5 mb-5 pb-1 fond-inner">
+            <h4 class="mt-4 mb-5 text-bold">
+                {{ 'Nouveau Financement'|trans }} 
+            </h4>
+
+    {{ include('partenaire/_form.html.twig') }}
+
+</div>
+</div>
+</div>
+{% endblock %}

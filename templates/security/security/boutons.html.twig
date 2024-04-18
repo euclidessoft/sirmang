@@ -1,0 +1,52 @@
+<div class="col-lg-12 mt-3 pt-3 pb-2  fond">
+    <div class="row">
+        <div class="centrer">
+            <div class="col-12">
+                
+                <a href="{{ path('security_profile_edit') }}" class="btn btn-normal btn-outline-primary mb-2 mr-2 l-5">
+                    <i class="fa fa-edit"></i>
+                        {{ 'Modifier mon profil'|trans }}
+                </a>
+                
+                <a href="{{ path('security_change_password') }}" class="btn btn-outline-warning mb-2 mr-2 l-5">
+                    <i class="fa fa-lock"></i>
+                    {{ 'Changer mot de passe'|trans }}
+                </a>
+                
+
+                
+                {% if is_granted("ROLE_MODIF_FIN_CELL") and cellule is null %}
+                    <a href="{{ path('cotisation_new', { 'cellule' : app.user.cellule.id }) }}" class="btn btn-normal btn-primary mb-2 mr-2 l-5">
+                        <i class="fa fa-edit"></i>
+                        {{ 'Definir Cotisation'|trans }}
+                    </a>
+                    {% else  %}
+                        <a href="{{ path('cotisation_edit', { 'cellule' : app.user.cellule.id, 'id' : app.user.cellule.id }) }}" class="btn btn-normal btn-primary mb-2 mr-2 l-5">
+                            <i class="fa fa-edit"></i>
+                            {{ 'Modifier Cotisation'|trans }}
+                        </a>
+                {% endif %}
+
+                <div class="dropdown" style="display: inline;">
+                    <button id="joindre" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        fonctions
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="joindre">
+
+                        <a class="dropdown-item" href="{{ path('fonction_change', { 'user' : user.id, 'fonction': 1})}}">Pesident Federation</a>
+                        <a class="dropdown-item" href="{{ path('fonction_change', { 'user' : user.id, 'fonction': 2})}}">Secretaire Federation</a>
+                        <a class="dropdown-item" href="{{ path('fonction_change', { 'user' : user.id, 'fonction': 3})}}">Tresorier Federation</a>
+                        <a class="dropdown-item" href="{{ path('fonction_change', { 'user' : user.id, 'fonction': 5})}}">President Daahira</a>
+                        <a class="dropdown-item" href="{{ path('fonction_change', { 'user' : user.id, 'fonction': 6})}}">Secretaire Daahira</a>
+                        <a class="dropdown-item" href="{{ path('fonction_change', { 'user' : user.id, 'fonction': 7})}}">Tresorier Daahira</a>
+                        <a class="dropdown-item" href="{{ path('fonction_change', { 'user' : user.id, 'fonction': 9})}}">Membre Simple</a>
+
+                    </div>
+                </div>
+                
+
+                
+            </div>
+        </div>
+    </div>
+</div>

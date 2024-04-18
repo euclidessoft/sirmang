@@ -1,0 +1,36 @@
+{% extends 'layout3.html.twig' %}
+{% block title %} TAM- Assemblee Generale  {% endblock %}
+{% block assignation %} class="active" {% endblock %}
+{% block caisse %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse / {{ app.user.cellule.nom }} / Assignations /Toutes</h3>
+<div class="row">
+    
+    
+    <table width="100%" class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Evenement</th>
+                <th>Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for assignation in assignations %}
+            <tr>
+                <td>{{ assignation.date ? assignation.date|date('d/m/Y') : '' }}</td>
+                <td>{{ assignation.activite.nom }}</td>
+                <td>{{ assignation.montant|number_format(0, '', ' ') }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

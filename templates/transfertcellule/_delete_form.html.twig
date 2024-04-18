@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('transfertcellule_delete', {'id': transfert.id, 'cellule' : cellule.id}) }}" onsubmit="return confirm('Vous etes sur de vouloir Supprimer?');" style="display: inline;">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ transfert.id) }}">
+    <button class="btn btn-danger"><i class="fa fa-trash"></i> Supprimer</button>
+</form>

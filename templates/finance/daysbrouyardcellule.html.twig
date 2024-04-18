@@ -1,0 +1,367 @@
+{% extends "layout3.html.twig" %}
+{% block title %} {{ 'Situation journalière'|trans }} - Hajjalbayt {% endblock %}
+{% block facture %} onload="window.print()" onafterprint="window.close()" {% endblock %}
+{% block bilan %} class="active" {% endblock %}
+{% block body %}
+
+
+<div class="col-md-10 offset-md-1 mb-5">
+    <h3 class="mb-5 text-bold">
+        <i class="fa fa-money-bill mr-2"></i>
+        {{ 'Situation caisse à la date du'|trans }}
+        {{ jour1|date('d/m/Y') }} au {{ jour2|date('d/m/Y') }}
+    </h3>
+    <h4> {{ 'Solde d\'ouverture'|trans }} :
+        <span class="text-bold montant">
+            {{ ouverture|number_format(0, '', ' ') }} F CFA
+        </span>
+    </h4>
+    <div class="col-md-12 mt-5 mb-3 fond-inner" id="entrees">
+        <h3 class="mt-4 mb-2 text-bold">
+            <i class="fa fa-money"></i> <i class="fa fa-arrow-right"></i> <i class="fa fa-suitcase"></i>
+            {{ 'Entrées'|trans }}
+        </h3>
+        <div class="card border-green shadow-black mt-4 mb-3">
+            <div class="card-header bg-success-light bb-green text-green">
+                <i class="fa fa-money-bill-wave"></i>
+                {{ 'Cotisations'|trans }}
+            </div>
+            <div class="card-body">
+                <table class="table table-success table-bordered table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                {{ 'nombre de cotisations'|trans }}
+                            </th>
+                            <th class="text-center">
+                                {{ 'Montant'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td> {{cotisnombre}} cotisation(s)</td>
+                            <td> {{cotisations|number_format(0, '', ' ') }} F CFA</td>
+
+                        </tr>
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card border-green shadow-black mt-4 mb-3">
+            <div class="card-header bg-success-light bb-green text-green">
+                <i class="fa fa-money-bill-wave"></i>
+                {{ 'Assignations'|trans }}
+            </div>
+            <div class="card-body">
+                <table class="table table-success table-bordered table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                {{ 'nombre d\'assignations'|trans }}
+                            </th>
+                            <th class="text-center">
+                                {{ 'Montant'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td> {{assignombre}} assignation(s)</td>
+                            <td> {{assignations|number_format(0, '', ' ') }} F CFA</td>
+
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card border-warning shadow-black mt-4 mb-3">
+            <div class="card-header bg-warning-light bb-warning text-warning">
+                <i class="fa fa-sign-out-alt"></i>
+                {{ 'Transfert de fonds'|trans }}
+            </div>
+            <div class="card-body">
+                <table class="table table-warning-light table-bordered table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                {{ 'Date'|trans }}
+                            </th>
+                            <th class="text-center">
+                                {{ 'Montant'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set credittransfert = 0 %}
+                       
+                        {% for debit in credittransferts %}
+                        <tr>
+                            <td data-label="{{ 'Date'|trans }}" class="text-center">
+                                {{ debit.date|date('d/m/Y')}}
+                            </td>
+                            <td data-label="{{ 'Montant'|trans }}" class="montant">
+                                {{ debit.montant|number_format(0, '' , ' ') }}
+                            </td>
+                            {% set credittransfert = credittransfert + debit.montant %}
+                        </tr>
+                       
+                        {% else %}
+                        <tr>
+                            <td colspan="3" data-label="colspan">
+                                {{ 'Aucun transfert de fonds'|trans }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer bg-default bt-warning">
+                {{ 'Total'|trans }} :
+                <span class="montant">
+                    {{ credittransfert|number_format(0, '', ' ') }} F CFA
+                </span>
+            </div>
+        </div>
+        <div class="card border-warning shadow-black mt-4 mb-3">
+            <div class="card-header bg-warning-light bb-warning text-warning">
+                <i class="fa fa-sign-out-alt"></i>
+                {{ 'Financements'|trans }}
+            </div>
+            <div class="card-body">
+                <table class="table table-warning-light table-bordered table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                {{ 'Date'|trans }}
+                            </th>
+                            <th>
+                                {{ 'Partenaire'|trans }}
+                            </th>
+                            <th class="text-center">
+                                {{ 'Montant'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set financement = 0 %}
+                       
+                        {% for debit in financements %}
+                        <tr>
+                            <td data-label="{{ 'Date'|trans }}" class="text-center">
+                                {{ debit.date|date('d/m/Y')}}
+                            </td>
+                            <td data-label="{{ 'Partenaire'|trans }}">
+                                {{ debit.financementcellule.partenaire.nom }}
+                            </td>
+                            <td data-label="{{ 'Montant'|trans }}" class="montant">
+                                {{ debit.montant|number_format(0, '' , ' ') }}
+                            </td>
+                            {% set financement = financement + debit.montant %}
+                        </tr>
+                       
+                        {% else %}
+                        <tr>
+                            <td colspan="3" data-label="colspan">
+                                {{ 'Aucun transfert de fonds'|trans }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer bg-default bt-warning">
+                {{ 'Total'|trans }} :
+                <span class="montant">
+                    {{ financement|number_format(0, '', ' ') }} F CFA
+                </span>
+            </div>
+        </div>
+        <div class="card border-warning shadow-black mt-4 mb-3">
+            <div class="card-header bg-warning-light bb-warning text-warning">
+                <i class="fa fa-sign-out-alt"></i>
+                {{ 'Autres Entrees'|trans }}
+            </div>
+            <div class="card-body">
+                <table class="table table-warning-light table-bordered table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                {{ 'Date'|trans }}
+                            </th>
+                            <th>
+                                {{ 'provenance'|trans }}
+                            </th>
+                            <th class="text-center">
+                                {{ 'Montant'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set autre = 0 %}
+                       
+                        {% for debit in autres %}
+                        <tr>
+                            <td data-label="{{ 'Date'|trans }}" class="text-center">
+                                {{ debit.date|date('d/m/Y')}}
+                            </td>
+                            <td data-label="{{ 'Partenaire'|trans }}">
+                                {{ debit.autreentree.provenance }}
+                            </td>
+                            <td data-label="{{ 'Montant'|trans }}" class="montant">
+                                {{ debit.montant|number_format(0, '' , ' ') }}
+                            </td>
+                            {% set autre = autre + debit.montant %}
+                        </tr>
+                       
+                        {% else %}
+                        <tr>
+                            <td colspan="3" data-label="colspan">
+                                {{ 'Aucune autre entree'|trans }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer bg-default bt-warning">
+                {{ 'Total'|trans }} :
+                <span class="montant">
+                    {{ autre|number_format(0, '', ' ') }} F CFA
+                </span>
+            </div>
+        </div>
+
+        <h5 class="mt-4 mb-3">
+            {{ 'Total entrées'|trans }} :
+            <span class="text-bold montant">
+                {{ (cotisations + assignations + credittransfert + financement + autre)|number_format(0, '', ' ') }} F CFA
+            </span>
+        </h5>
+    </div>
+    <div class="col-md-12 mt-5 mb-3 fond-inner">
+        <h3 class="mt-4 mb-2 text-bold text-warning">
+            <i class="fa fa-suitcase"></i> <i class="fa fa-arrow-right"></i> <i class="fa fa-money"></i>
+            {{ 'Sorties'|trans }}
+        </h3>
+        <div class="card border-warning shadow-black mt-4 mb-3">
+            <div class="card-header bg-warning-light bb-warning text-warning">
+                <i class="fa fa-sign-out-alt"></i>
+                {{ 'Transfert de fonds'|trans }}
+            </div>
+            <div class="card-body">
+                <table class="table table-warning-light table-bordered table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                {{ 'date'|trans }}
+                            </th>
+                            <th class="text-center">
+                                {{ 'Montant'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set debittransfert = 0 %}
+                        {% for debit in debittransferts %}
+                        <tr>
+                            <td data-label="{{ 'Heure'|trans }}" class="text-center">
+                                {{ debit.date|date('d/m/Y')}}
+                            </td>
+                            <td data-label="{{ 'Montant'|trans }}" class="montant">
+                                {{ debit.montant|number_format(0, '' , ' ') }}
+                            </td>
+                            {% set debittransfert = debittransfert + debit.montant %}
+                        </tr>
+                       
+                        {% else %}
+                        <tr>
+                            <td colspan="3" data-label="colspan">
+                                {{ 'Aucun transfert de fonds'|trans }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer bg-default bt-warning">
+                {{ 'Total'|trans }} :
+                <span class="montant">
+                    {{ debittransfert|number_format(0, '', ' ') }} F CFA
+                </span>
+            </div>
+        </div>
+        <div class="card border-warning shadow-black mt-4 mb-3">
+            <div class="card-header bg-warning-light bb-warning text-warning">
+                <i class="fa fa-sign-out-alt"></i>
+                {{ 'Dépenses'|trans }}
+            </div>
+            <div class="card-body">
+                <table class="table table-warning-light table-bordered table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                {{ 'date'|trans }}
+                            </th>
+                            <th>
+                                {{ 'Motif'|trans }}
+                            </th>
+                            <th class="text-center">
+                                {{ 'Montant'|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set depense = 0 %}
+                        {% for debit in depenses %}
+                        <tr>
+                            <td data-label="{{ 'Heure'|trans }}" class="text-center">
+                                {{ debit.date|date('d/m/Y')}}
+                            </td>
+                            <td data-label="{{ 'Motif'|trans }}">
+                                {{ debit.depensecellule.motif }}
+                            </td>
+                            <td data-label="{{ 'Montant'|trans }}" class="montant">
+                                {{ debit.montant|number_format(0, '' , ' ') }}
+                            </td>
+                            {% set depense = depense + debit.montant %}
+                        </tr>
+                        
+                        {% else %}
+                        <tr>
+                            <td colspan="3" data-label="colspan">
+                                {{ 'Aucune dépense'|trans }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer bg-default bt-warning">
+                {{ 'Total'|trans }} :
+                <span class="montant">
+                    {{ depense|number_format(0, '', ' ') }} F CFA
+                </span>
+            </div>
+        </div>
+        
+        <h5 class="mt-4 mb-3 text-warning text-bold">
+            {{ 'Total sorties'|trans }} :
+            <span class="text-bold montant">
+                {{ (debittransfert + depense)|number_format(0, '', ' ') }} F CFA
+            </span>
+        </h5>
+    </div>
+    <h3 class="mt-4 mb-4">
+        {{ 'Solde du'|trans }} {{ jour2|date('d/m/Y') }} :
+        <span class="text-bold montant">
+            {{ ((ouverture + cotisations + assignations + credittransfert + financement + autre) - (debittransfert + depense))|number_format(0, '', ' ') }} F CFA
+        </span>
+    </h3>
+</div>
+
+{% endblock %}

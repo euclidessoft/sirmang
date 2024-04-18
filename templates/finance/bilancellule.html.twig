@@ -1,0 +1,152 @@
+{% extends 'layout3.html.twig' %}
+
+{% block title %}Cotisation index{% endblock %}
+{% block bilan %} class="active"{% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse {{cellule.nom}} / Bilan</h3>
+
+
+    <div class="col-lg-12 mt-2">
+        <h4 class="mt-2">
+            <i class="fa fa-money-bill-wave"></i>
+            {{ 'Situations'|trans }}
+        </h4>
+        <a href="{{ path('finance_brouillard_cellule' , { cellule : cellule.id})}}" class="btn btn-success">
+                <i class="fa fa-money-bill"></i>
+                {{ 'Situation journaliére'|trans }}
+        </a>
+        <div class="row mt-2">
+            <div class="col-lg-4">
+                <div class="card border-primary shadow-black mt-4">
+                    <div class="card-header bg-primary">
+                        <h6 class="mb-n1">
+                            {{ 'Situation à une autre date'|trans }}
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group mt-1">
+                            <input type="date" id="day" name="day" class="form-control" onchange="dayenable()" placeholder="jj/mm/aaaa">
+                        </div>
+
+                        <div id="zonebutton">
+                            <button type="button" class="btn btn-default mr-3"><i class="fa fa-check-circle"></i> Valider</button>
+                        </div>
+                            
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card border-primary mt-4">
+                    <div class="card-header bg-primary">
+                        <h6 class="mb-n1">
+                            {{ 'Situation dans un intervalle de dates'|trans }}
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-n3">
+                            <div class="col-lg-6 form-group mt-1">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <p class="text-nowrap text-right mt-2 mr-n3">
+                                            {{ 'Du'|trans }}
+                                        </p>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="date" id="date1" name="date1" class="form-control" onchange="daysenable()">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 form-group mt-1">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <p class="text-nowrap text-right mt-2 mr-n3">
+                                            {{ 'Au'|trans }}
+                                        </p>
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="date" id="date2" name="date2" class="form-control" onchange="daysenable()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="zonedeux">
+                            <button type="button" class="btn btn-default mr-3"><i class="fa fa-check-circle"></i> Valider</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block scripts %}
+<script>
+    function joindre() {
+        $('#joindre').html("<div class=\"spinner-border spinner-border-sm text-info\" role=\"status\"><span class=\"sr-only\">Loading...</span></div>");
+    }
+    function daycaisse(cellule) {
+
+        var date1 = new Date($('#day').val());
+        if (date1 < new Date()) {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('finance_day_brouyard_lien_cellule') }}",
+                data: "date1=" + $('#day').val() + "&cellule=" + cellule,
+                success: function(data) {
+                    window.open(data['ok'], '_blank');
+                    window.location.reload();
+                },
+                error: function() {
+                    alert("{{'La requête n a pas abouti'|trans }}");
+                }
+            });
+        } else {
+            alert("{{'Vérifiez la date saisie'|trans }}");
+        }                                                                                               
+
+    }
+    function dayenable() {
+      // var reg = new RegExp("/^(\d{2}\/){2}\d{4}$/");
+            if ($('#day').val() != '') {
+                $('#zonebutton').html('<button type="button" class="btn btn-success mr-3" onclick="daycaisse({{app.user.cellule.id}})"><i class="fa fa-check-circle"></i> Valider</button>');
+            } else {
+                $('#zonebutton').html('<button type="button" class="btn btn-default mr-3"><i class="fa fa-check-circle"></i> Valider</button>');
+        } 
+    }
+
+    function daysenable() {
+        if ($('#date1').val() != '' && $('#date2').val() != '') {
+            $('#zonedeux').html('<button type="button" class="btn btn-success mr-3" onclick="dayscaisse({{app.user.cellule.id}})"><i class="fa fa-check-circle"></i> Valider</button>');
+        } else {
+            $('#zonedeux').html('<button type="button" class="btn btn-default mr-3"><i class="fa fa-check-circle"></i> Valider</button>');
+        }
+    }
+
+    function dayscaisse(cellule) {
+
+        var date1 = new Date($('#date1').val());
+        var date2 = new Date($('#date2').val());
+        if (date1 < date2 && date2 < new Date()) {
+            $.ajax({
+                type: "POST",
+                url: "{{ path('finance_days_brouyard_lien_cellule') }}",
+                data: "date1=" + $('#date1').val() + "&date2=" + $('#date2').val() + "&cellule=" + cellule,
+                success: function(data) {
+                    window.open(data['ok'], '_blank');
+                    window.location.reload();
+                },
+                error: function() {
+                    alert("{{'La requête n a pas abouti'|trans }}");
+                }
+            });
+
+        } else {
+            alert("{{'Vérifiez les dates saisies'|trans }}");
+        }
+
+    }
+
+
+</script>
+{% endblock %}
+{% endblock %}

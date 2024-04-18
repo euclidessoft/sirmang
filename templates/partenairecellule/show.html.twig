@@ -1,0 +1,69 @@
+{% extends 'layout3.html.twig' %}
+
+{% block partenaire %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse /{{ app.user.cellule.nom }} / Partenaire</h3>
+<div class="row">
+    <div class="col-12">
+        {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+            <a  class="btn btn-primary pull-right mb-3" href="{{ path('partenairecellule_financement', { 'cellule' : app.user.cellule.id ,'partenaire' : partenairecellule.id }) }}">
+             Nouveau Financement
+            </a>
+        {% endif %}
+        </div>
+    </div>
+        <div class="partenaire">
+            
+        <table width="100%" class="table table-success-light table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Phone</th>
+                    {% if is_granted('ROLE_MODIF_FIN_CELL') %}<th>actions</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td>{{ partenairecellule.nom }}</td>
+                    <td>{{ partenairecellule.adresse }}</td>
+                    <td>{{ partenairecellule.phone }}</td>
+                    {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+                        <td>
+                            <a class="btn btn-success" href="{{ path('partenairecellule_edit', {'cellule' : app.user.cellule.id, 'id': partenairecellule.id}) }}"><i class="fa fa-edit"></i> Modifier</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h2> Listes des financements du partenaire</h2>
+    <table width="100%" class="table table-success-light table-bordered table-hover table-striped" id="liste">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for financement in financements %}
+            <tr>
+                <td>{{ financement.date ? financement.date|date('d/m/Y') : '' }}</td>
+                <td>{{ financement.montant|number_format(0, '', ' ') }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+    
+        </div>
+    </div>
+{% endblock %}

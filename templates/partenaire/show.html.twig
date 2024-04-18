@@ -1,0 +1,68 @@
+{% extends 'layout4.html.twig' %}
+
+{% block partenaire %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse /  Partenaire</h3>
+<div class="row">
+    <div class="col-12">
+        {% if is_granted('ROLE_MODIF_FIN_BEN') %}
+            <a  class="btn btn-primary pull-right mb-3" href="{{ path('partenaire_financement', { partenaire : partenaire.id }) }}">
+                Nouveau Financement
+            </a>
+        {% endif %}
+    </div>
+    </div>
+        <div class="partenaire">
+            
+        <table width="100%" class="table table-success-light table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Adresse</th>
+                    <th>Phone</th>
+                    {% if is_granted('ROLE_MODIF_FIN_BEN') %}<th>actions</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+            
+                <tr>
+                    <td>{{ partenaire.nom }}</td>
+                    <td>{{ partenaire.adresse }}</td>
+                    <td>{{ partenaire.phone }}</td>
+                    {% if is_granted('ROLE_MODIF_FIN_BEN') %}
+                     <td><a class="btn btn-success" href="{{ path('partenaire_edit', {'id': partenaire.id}) }}"><i class="fa fa-edit"></i> Modifier</a>
+                    {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h2> Listes des financements du partenaire</h2>
+    <table width="100%" class="table table-success-light table-bordered table-hover table-striped" id="liste">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for financement in financements %}
+            <tr>
+                <td>{{ financement.date ? financement.date|date('d/m/Y') : '' }}</td>
+                <td>{{ financement.montant|number_format(0, '', ' ') }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+    
+        </div>
+    </div>
+{% endblock %}

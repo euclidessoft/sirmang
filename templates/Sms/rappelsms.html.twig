@@ -1,0 +1,156 @@
+{% extends "base.html.twig" %}
+{% block title %} {{ 'Envoie sms'|trans }} - Easyschool {% endblock %}
+{% block transport %} class="dropright active" {% endblock %}
+{% block body %}
+
+<div class="col-lg-10 mt-5 offset-lg-1 bg-light">
+    <h3 class="pt-4 text-bold text-noir">
+        <i class="fa fa-users"></i>
+        <i class="fa fa-send"></i>
+        {{ 'Rappel paiement - Envoie Sms '|trans }}
+    </h3>
+     {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message|trans }}
+        </div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('credit') %}
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message|trans }}
+        </div>
+    {% endfor %}
+    <div class="col-lg-12 mt-3 mb-3">
+        
+        <button class="btn btn-shadow btn-normal btn-outline-secondary mb-4 mr-5 py-2 float-right" onclick="rappelsms()" title="{{ 'Envoyer'|trans }}">
+            <i class="fa fa-send"></i>
+            {{ 'Envoyer'|trans }}
+        </button>
+        <table class="table table-success-light table-bordered table-hover table-striped" id="list">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="tous" onchange="selectAll()" />
+                    </th>
+                    <th class="text-center">{{ 'Matricule'|trans }}</th>
+                    <th>{{ 'Prénom'|trans }}</th>
+                    <th>{{ 'Nom'|trans }}</th>
+                    <th class="text-center">{{ 'Date de naissance'|trans }}</th>
+                    <th>{{ 'Lieu de naissance'|trans }}</th>
+                    <th class="phone">{{ 'Téléphone'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if eleves is not empty %}
+                {% for eleve in eleves %}
+                <tr id="tr{{ eleve.id }}">
+                    <td data-label="{{ 'Choisir'|trans }}">
+                        <input type="checkbox" id="{{ eleve.id}}" onchange="trselect({{eleve.id}})" class="checkbox-center" />
+                    </td>
+                    <td data-label="{{ 'Numéro dossier'|trans }}" class="text-center">
+                        {{ eleve.matricule }}
+                    </td>
+                   
+                    <td data-label="{{ 'Prénom'|trans }}">
+                        {{ eleve.prenom}}
+                    </td>
+                    <td data-label="{{ 'Nom'|trans }}">
+                        {{ eleve.nom}}
+                    </td>
+                    <td data-label="{{ 'Date de naissance'|trans }}" class="text-center">
+                        {% if eleve.datenaissance is not empty %}
+                        {{ eleve.datenaissance|date('d/m/Y')}}
+                        {% else %}
+
+                        {% endif %}
+                    </td>
+                    <td data-label="{{ 'Lieu de naissance'|trans }}">
+                        {{ eleve.lieunaissance}}
+                    </td>
+                    <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                        {{ eleve.numerotuteur ? eleve.numerotuteur : ''}}
+                    </td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td data-label="colspan" colspan="9">
+                        {{ 'Aucun eleve'|trans }}
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="col-12">
+        <div class="centrer">
+            <div class="row">
+                <button class="btn btn-normal btn-outline-dark mb-2 mr-3" onclick="rappelsms()" title="Débarquer pèlerin">
+                    <i class="fa fa-send"></i>
+                    {{ 'Envoyer'|trans }}
+                </button>
+                <a href="{{ path('rappelpaiement') }}" class="btn btn-normal btn-outline-warning mb-2">
+                    <i class="fa fa-undo"></i>
+                    {{ 'Annuler'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+function rappelsms() {
+        var pel = "0";
+        $("input[type=checkbox]:checked").each(
+            function() {
+                if ($(this).attr("id") != 'tous') pel = pel + ";" + $(this).attr("id");
+            });
+        if (pel != "0") {
+            if (confirm("{{'Confirmez l envoie des sms ?'|trans}}")) {
+                $('button').html("<i class=\"fa fa-spinner\"></i>");
+               
+                document.location.href = "http://localhost/kmy/Sms/rappelsms.php?eleves="+pel;
+                    
+            }
+        } else alert("{{'Selectionnez au moins un élève'|trans }}");
+    }
+
+    function trselect(id) { //selection un eleve
+        if ($("#" + id).is(':checked')) {
+            $("#tr" + id).css('background', '#9d9d9d');
+        } else {
+            $("#tr" + id).css('background', '');
+            $("#tous").attr('checked', false);
+        }
+    }
+
+    function selectAll() { //selectionner tous les eleves
+        if ($("#tous").is(':checked')) {
+            $("input[type=checkbox]").attr('checked', true);
+            $("input[type=checkbox]").each(
+                function() {
+                    if ($(this).is(':checked')) {
+
+                    } else {
+                        $(this).trigger('click')
+                    }
+                    trselect($(this).attr("id"));
+                });
+        } else {
+            $("input[type=checkbox]").attr('checked', false);
+            $("input[type=checkbox]").each(
+                function() {
+                    if ($(this).is(':checked')) {
+                        $(this).trigger('click')
+                    }
+                    trselect($(this).attr("id"));
+                });
+        }
+    }
+</script>
+{% endblock %}

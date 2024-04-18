@@ -1,0 +1,42 @@
+{% extends 'layout2.html.twig' %}
+{% block caisse %} class="active" {% endblock %}
+{% block body %}
+{% if  is_granted('ROLE_AFF_ADMIN_BEN') %} 
+<a href="{{ path('finance_national')}}">
+    <div class="card-single">
+        <div>
+            <h1><i class="fa fa-suitcase"></i></h1>
+            <span>Caisse Nationale</span>
+        </div>
+    </div>
+</a>
+{% endif %}
+ <div class="cards">
+     {% for cellule in cellules %}
+        {% if is_granted('ROLE_PRESI_ZONE') %} 
+
+                <a href="{{ path('finance_cellule', { cellule: cellule.id}) }}">
+                    <div class="card-single">
+                        <div>
+                            <h1><i class="fa fa-suitcase"></i></h1>
+                            <span>{{ cellule.nom }}</span>
+                        </div>
+                    </div>
+                </a>
+
+        {% else %}
+            <a href="{{ path('finance_cellule', { cellule: cellule.id}) }}">
+                <div class="card-single">
+                    <div>
+                        <h1><i class="fa fa-suitcase"></i></h1>
+                        <span>{{ cellule.nom }}</span>
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+    {% else %}
+
+    {% endfor %}
+</div>              
+
+{% endblock %}

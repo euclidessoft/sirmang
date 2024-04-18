@@ -1,0 +1,26 @@
+
+{% extends "base.html.twig" %}
+{% block title %} {{ 'versement Caisse'|trans }} - Easyschool {% endblock %}
+{% block finance %} class="dropright active" {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-5 offset-md-3">
+<div class="card border-dark mt-4 mb-3">
+            <div class="card-header bg-light border-botom border-dark text-dark py-4 text-bold">
+                <i class="fa fa-money-bill-wave"></i>
+                {{ 'Rappel Paiement '|trans }}
+            </div>
+            <div class="card-body">
+
+    
+            
+            
+            <button class="btn btn-success"> Imprimer</button>
+            <a class="btn btn-info" href="{{ path('rappelsms')}}"> Envoyer par sms </a>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock %}

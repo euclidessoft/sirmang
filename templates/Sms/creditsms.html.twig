@@ -1,0 +1,70 @@
+{% extends "base.html.twig" %}
+{% block title %} {{ 'Envoie sms'|trans }} - Easyschool {% endblock %}
+{% block transport %} class="dropright active" {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="col-lg-8 offset-lg-2 mt-5 pb-5 bg-light">
+            <h3 class="mt-4 mb-5 text-dark">
+                <i class="fa fa-envelope"></i>
+                {{ 'Credit Sms'|trans }}
+            </h3>
+            <div class="row">
+            <div class="col-lg-5 offset-lg-1">
+                <div class="card border-dark">
+                    <div class="card-header sombre text-white">
+                        <div class="row">
+                            <div class="col-4"><br/>
+                                <i class="fa fa-hourglass-half fa-xl fa-5x"></i>
+                            </div>
+                            <div class="col-8 text-center">
+                                <h1 class="text-white fa-3x">sms</h1>
+                                <h1 class="text-white fa-3x">{{ sms.balance }}</h1>
+                                
+                            </div>
+                        </div>
+                    </div>
+                 </div>  
+            </div>
+            <div class="col-lg-5 offset-lg-1 text-white text-center">
+                
+                        <div class="row">
+                            <div class="col-12"><br/><br/>
+                                <button type="hidden" class="btn btn-outline-dark btn-xl" data-toggle="modal" data-target="#listeleve">
+  <i class="fa fa-shopping-cart"></i> Acheter du credit
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="listeleve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-dark">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-shopping-cart"></i> Achat credit sms</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <h2 class="text-dark"> l'achat en ligne n'est pas encore disponible. Veuillez contacter le 77 542 35 00.</h2>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="ferme">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+                            </div>
+                        </div>
+                      
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+{% endblock %}

@@ -1,0 +1,381 @@
+{% extends 'layout.html.twig' %}
+{% block title %} {{ 'Mon profile'|trans }} {% endblock %}
+{% block caisse %} class="active" {% endblock %}
+{% block body %}
+<h3>Suivie de mes cotisations</h3>
+<table width="100%" class="table table-striped table-bordered table-hover mt-4">
+    <thead>
+        <tr>
+            
+            
+            <th>
+                Mois
+            </th>
+            <th class="text-center">
+                {{ 'Montant'|trans }}
+            </th>
+            <th class="text-center">
+                
+               &eacute;tat
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        
+        <tr>
+            
+            <td data-label="{{ 'Janvier'|trans }}">
+                <b> 
+                     Janvier</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Janvier'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ')}} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+             
+         </tr>
+         <tr>
+             <td data-label="{{ 'Fevrier'|trans }}">
+                <b> 
+                     F&eacute;vrier</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Fevrier'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Mars'|trans }}">
+                <b> 
+                     Mars</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Mars'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Avril'|trans }}">
+                <b> 
+                     Avril</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Avril'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Mai'|trans }}">
+                <b> 
+                     Mai</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Mai'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Juin'|trans }}">
+                <b> 
+                     Juin</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Juin'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Juillet'|trans }}">
+                <b> 
+                     Juillet</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Juilet'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Aout'|trans }}">
+                <b> 
+                     Ao&ucirc;t</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Aout'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Septembre'|trans }}">
+                <b> 
+                     S&eacute;ptembre</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Septembre'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Octobre'|trans }}">
+                <b> 
+                     Octobre</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Octombre'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Novembre'|trans }}">
+                <b> 
+                     Novembre</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Novembre'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+        </tr>
+        <tr>
+             <td data-label="{{ 'Decembre'|trans }}">
+                <b> 
+                     D&eacute;cembre</b>
+             </td>
+             {% set tamp = 0 %}
+                {% for cotisation in cotisations %}
+                    {% if cotisation.mois.nom == 'Decembre'%}
+                        <td data-label="{{ 'Montant'|trans }}">
+                        <b> {{ cotisation.montant|number_format(0, '', ' ') }} </b>
+                        </td>
+                        <td data-label="{{ 'Etat'|trans }}" style="background: #d4edda;">
+                            <b> accquit&eacute;e </b>
+                        </td>
+                        {% set tamp = 1 %}
+                    {% endif %}
+                {% else %}
+
+                {% endfor %}
+                {% if tamp == 0 %}
+                <td data-label="{{ 'Montant'|trans }}">
+                    <b> {{ user.cotisation|number_format(0, '', ' ') }} </b>
+                    </td>
+                    <td data-label="{{ 'Etat'|trans }}" style="background: #f8d7da;">
+                        <b> non accquit&eacute;e </b>
+                    </td>
+
+                {% endif %}
+            
+         </tr>
+            
+            
+    </tbody>
+</table>
+{% endblock %}

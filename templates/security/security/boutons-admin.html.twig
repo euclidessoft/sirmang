@@ -1,0 +1,76 @@
+<div class="col-lg-12 mt-3 pt-3 pb-2  fond">
+    <div class="row">
+        <div class="centrer">
+            {% if is_granted("ROLE_MODIF_ADMIN_CELL") %}
+            <div class="col-12">
+                    
+                <a href="{{ path('security_user_edit', {user : user.id}) }}" class="btn btn-normal btn-outline-primary mb-2 mr-2 l-5">
+                    <i class="fa fa-edit"></i>
+                {{ 'Modifier Infos Utilisateur'|trans }}
+                 </a>
+                {% if is_granted("ROLE_PROPRIETAIRE") %}
+                    {% set admin = 0 %}
+                    {% for role in user.roles %}
+                        {% if role == 'ROLE_ADMIN' %}
+                            {% set admin = 1 %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if admin == 0 %}
+                        <a href="{{ path('security_user_admin', {user : user.id}) }}" class="btn btn-normal btn-outline-danger mb-2 mr-2 l-5">
+                            <i class="fa fa-edit"></i>
+                       D&eacute;signer comme Administrateur
+                        </a>
+                    {% else %}
+                        <a href="{{ path('security_user_admin_cancel', {user : user.id}) }}" class="btn btn-normal btn-outline-success mb-2 mr-2 l-5">
+                            <i class="fa fa-edit"></i>
+                       D&eacute;activer Administrateur
+                        </a>
+                    {% endif %}
+                {% endif %}
+                <button class="btn btn-normal btn-danger mb-2 mr-2 l-5" onclick="del({{user.id}})" id="btn">
+                    <i class="fa fa-trash"></i>
+                {{ 'Supprimer Membre'|trans }}
+                </button>
+
+                {% if user.cellule is null %}
+                <div class="dropdown" style="display: inline;">
+                    <button id="joindre" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   
+                        joindre une cellule
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="joindre">
+                            {% for cellule in cellules %}
+                                <a class="dropdown-item" href="{{ path('cellule_joindre_admin',{ user: user.id, cellule : cellule.id})}}" onclick="joindre()">{{ cellule.nom }}</a>
+                            {% else %}
+                                Aucune Cellule
+                            {% endfor %}
+                    </div>
+              </div>
+
+                {% endif %}
+                    
+                
+                  {% if  is_granted('ROLE_MODIF_ADMIN_CELL') and  user.cellule is not null %} 
+                <td data-label="{{ 'Action'|trans }}">
+                            {% if user.enabled == 1%}
+                            <button class="btn btn-shadow btn-td btn-normal btn-warning" id="btn{{user.id}}" onclick="userdisable({{user.id}})">
+                                <i class="fa fa-user-lock"></i>
+                                {{'Désactiver'|trans}}
+                            </button>
+                            {% else %}
+                            <button class="btn btn-shadow btn-td btn-normal btn-success" id="btn{{user.id}}" onclick="userenable({{user.id}})">
+                                <i class="fa fa-lock-open"></i>
+                                {{'Activer'|trans}}
+                            </button>
+                            {% endif %}
+                </td>
+                {% endif %}
+
+                
+                
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

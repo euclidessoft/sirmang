@@ -1,0 +1,75 @@
+{% extends 'layout2.html.twig' %}
+
+{% block title %}Cotisation index{% endblock %}
+
+{% block body %}
+<h1>gestion financiere</h1>
+{% if cotisations|length == 0%}
+<div class="row">
+<div class="col-12"><a  class="btn btn-success pull-right mb-3" href="{{ path('cotisation_new') }}"><i class="fa fa-edit"></i><i class="fa fa-money"></i> Definir Cotisation</a></div>
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-12"><a  class="btn btn-success pull-right mb-3" href="{{ path('finance_cotisations') }}">Desigenr comme cotiser</a></div>
+    </div>
+    
+    <table class="table table-success-light table-bordered table-hover table-striped"  id="liste">
+        <thead>
+            <tr>
+                <th>
+                    {{ 'Identifiant'|trans }}
+                </th>
+                <th>
+                    {{ 'Nom et Prénom'|trans }}
+                </th>
+                <th class="text-center">
+                    {{ 'Montant'|trans }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in cotismensuels %}
+            <tr>
+                <td data-label="{{ 'Photo'|trans }}">
+                    <b><a href="{{ path('security_user', { user : user.id })}}">
+                        {% if user.sexe == "Monsieur" %}
+                        <img src="{{asset('images/avatar.jpg') }}" width="50" alt="Photo" class="rounded-circle" />
+                        {% else %}
+                        <img src="{{asset('images/avatar-femme.jpg') }}" width="50" alt="Photo" class="rounded-circle" />
+                        {% endif %}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Identifiant'|trans }}">
+                   <b> <a href="{{ path('security_user', { user : user.id })}}">
+                        {{ user.username|upper }}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Nom et Prénom'|trans }}">
+                   <b> <a href="{{ path('security_user', { user : user.id })}}">
+                    {{ user.nom|upper }}  {{ user.prenom }}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                   <b> <a href="{{ path('security_user', { user : user.id })}}">
+                        {{ user.phone }}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Profession'|trans }}" class="text-center">
+                   <b> <a href="{{ path('security_user', { user : user.id })}}">
+                        {{ user.profession }}
+                    </a></b>
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+    
+        </div>
+    </div>
+
+
+{% endblock %}

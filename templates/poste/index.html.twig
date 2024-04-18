@@ -1,0 +1,45 @@
+{% extends 'layout1.html.twig' %}
+
+{% block ca %}class="active"{% endblock %}
+
+{% block body %}
+<h1>Listes des Postes</h1>
+<div class="row">
+<div class="col-12">
+    {% if is_granted('ROLE_MODIF_ADMIN_BEN') %}
+    <a  class="btn btn-success pull-right mb-3" href="{{ path('poste_new') }}">Nouveau Poste</a>
+    {% endif %}
+</div>
+</div>
+
+<table width="100%" class="table table-success-light table-bordered table-hover table-striped"  id="liste">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Poste</th>
+                <th>Nom et Pr&eacute;nom</th>
+                {% if is_granted('ROLE_MODIF_ADMIN_BEN') %}<th>actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% set i =1 %}
+        {% for poste in postes %}
+            <tr>
+                <td class="text-center">{{ i }}{% set i = i+1 %}</td>
+                <td>{{ poste.nom }}</td>
+                <td>{{ poste.user ? poste.user.nom ~ " " ~ poste.user.prenom : '' }}</td>
+                {% if is_granted('ROLE_MODIF_ADMIN_BEN') %}
+                <td>
+                    <a class="btn btn-success" href="{{ path('poste_edit', {'id': poste.id}) }}"><i class="fa fa-edit"></i>Modifier</a>
+                    
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

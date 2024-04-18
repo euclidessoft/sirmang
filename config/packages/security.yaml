@@ -1,0 +1,53 @@
+security:
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    role_hierarchy:
+        ROLE_FIN:       [ROLE_MEMBRE]
+        ROLE_ADMIN:       [ROLE_MEMBRE]
+        ROLE_AFF_FIN_BEN:       [ROLE_FIN]
+        ROLE_AFF_FIN_CELL:       [ROLE_FIN]
+        ROLE_MODIF_FIN_BEN:       [ROLE_AFF_FIN_BEN]
+        ROLE_MODIF_FIN_CELL:       [ROLE_AFF_FIN_CELL]
+        ROLE_AFF_ADMIN_CELL:       [ROLE_ADMIN]
+        ROLE_AFF_ADMIN_ZONE:       [ROLE_AFF_ADMIN_CELL]
+        ROLE_MODIF_ADMIN_CELL:       [ROLE_AFF_ADMIN_CELL]
+        ROLE_AFF_ADMIN_BEN:       [ROLE_AFF_ADMIN_ZONE]
+        ROLE_MODIF_ADMIN_BEN:       [ROLE_MODIF_ADMIN_CELL, ROLE_AFF_ADMIN_BEN]
+        ROLE_PRESI_CELL:       [ROLE_MODIF_FIN_CELL, ROLE_MODIF_ADMIN_CELL]
+        ROLE_PRESI_ZONE:       [ROLE_AFF_ADMIN_ZONE, ROLE_PRESI_CELL]
+        ROLE_PRESI:       [ROLE_MODIF_ADMIN_BEN, ROLE_MODIF_FIN_BEN, ROLE_MODIF_FIN_CELL, ROLE_MODIF_ADMIN_CELL]
+        ROLE_SUPER_USER:       [ROLE_PRESI, ROLE_MODIF_ADMIN_BEN, ROLE_MODIF_FIN_BEN, ROLE_MODIF_FIN_CELL, ROLE_MODIF_ADMIN_CELL]
+
+
+
+    providers:
+        sakkane:
+            entity: 
+               class: App\Entity\User
+               property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+            provider: sakkane
+            form_login:
+                login_path: security_login
+                check_path: security_login
+                default_target_path: security_profile
+                
+
+
+            logout:
+                path: security_logout
+                target: security_login
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

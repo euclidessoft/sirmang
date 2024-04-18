@@ -1,0 +1,13 @@
+<form method="post"
+{% if cellule == "CA" %}
+    action="{{ path('cotisation_delete', {'id': user.id, 'cellule' : 'CA', 'mois' : mois.id}) }}" 
+ {% elseif cellule == "BEN" %}
+    action="{{ path('cotisation_delete', {'id': user.id, 'cellule' : 'BEN', 'mois' : mois.id}) }}" 
+ {% else %}
+    action="{{ path('cotisation_delete', {'id': user.id, 'cellule' : cellule.id, 'mois' : mois.id}) }}"
+ {% endif %}
+ onsubmit="return confirm('Etes-vous sur de vouloir supprimer la cotisation?');"  style="display: inline;">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+    <button class="btn btn-danger"><i class="fa fa-undo"></i> Annuler</button>
+</form>

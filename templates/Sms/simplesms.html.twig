@@ -1,0 +1,153 @@
+{% extends "base.html.twig" %}
+{% block title %} {{ 'Envoie sms'|trans }} - Easyschool {% endblock %}
+{% block transport %} class="dropright active" {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="col-lg-8 offset-lg-2 mt-5 sombre">
+            <h3 class="mt-4 mb-5 text-light">
+                <i class="fa fa-envelope"></i>
+                {{ 'Sms Simple'|trans }}
+            </h3>
+
+            <div class="col-lg-10 offset-lg-1">
+                {% for message in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black mb-4">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+                {% for message in app.session.flashbag.get('credit') %}
+                    <div class="alert alert-danger alert-dismissible fade show radius-10 shadow-black mb-4">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+                {{form_start(form, {'action' : 'http://localhost/kmy/Sms/simplesms.php','attr':{'id': 'form'}})}}
+                
+                <div class="form-group mt-2">
+                    {{form_errors(form.numero) }}
+                    <div class="input-group">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><a href="#" onclick="selectnumero()" style="color: #000;"><i class="fa fa-list"></i></a> </span>
+                        </div>
+                        {{form_widget(form.numero, {'label':false, 'attr' : { 'placeholder':'Numero ( 770000000 ou 77 000 00 00)'}})}}
+                        
+                    </div>
+                </div>
+                <div class="form-group mt-4 mb-3">
+                    {{ form_row(form.text, {'label' : false, 'attr':{'placeholder': 'Votre message', 'cols' : 30, 'rows' : 10}})}}
+                </div>
+            
+            <div class="centrer">
+                <button type="submit" class="btn btn-normal btn-outline-light mb-3 mr-3" id="send">
+                    <i class="fa fa-paper-plane"></i>
+                    {{ 'Envoyer'|trans }}
+                </button>
+                <button type="reset" class="btn btn-normal btn-outline-warning mb-3">
+                    <i class="fa fa-undo"></i>
+                    {{ 'Effacer'|trans }}
+                </button>
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+            </div>
+        </div>
+    </div>
+    <button type="hidden" class="btn btn-primary" data-toggle="modal" data-target="#listeleve" id="listenum">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="listeleve" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Liste Eleves</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table width="100%" class="table table-striped table-bordered table-hover" id="listenumero">
+                                <thead>
+								<tr>
+                                        <th>Matricule</th>
+                                        <th>Prenom</th>
+                                        <th>Nom</th>
+                                        <th>Date de naissance</th>
+                                        <th>Lieu de naissance</th>
+                                        <th>Numero tuteur</th>
+                                        <th>Numero tuteur</th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+								{% if eleves is not empty %}
+									{% for eleve in eleves %}
+									<tr>
+									<td> {{ eleve.matricule}}</td>
+									<td> {{ eleve.prenom}}</td>
+									<td> {{ eleve.nom}}</td>
+									<td> {{ eleve.datenaissance|date('d/m/Y')}}</td>
+									<td> {{ eleve.lieunaissance}}</td>
+									
+                                    <td>
+                                        {% if eleve.numerotuteur is not null %}
+                                        {{ eleve.numerotuteur }}
+                                        <button class="btn btn-secondary" onclick="choicenumber({{eleve.numerotuteur|replace({' ': ''})}})"><i class="fa fa-check"></i></button>
+                                        {% endif %}
+                                    </td>
+
+                                        <td>
+                                        {% if eleve.phonetutor is not null %}
+                                        {{ eleve.phonetutor }}
+                                        <button class="btn btn-secondary" onclick="choicenumber({{eleve.phonetutor|replace({' ': ''})}})"><i class="fa fa-check"></i></button>
+                                        {% endif %}
+                                    </td>
+
+									</tr>
+									{% endfor %}
+								{% else %}
+									aucun eleve
+								{% endif %}
+                                    
+                                </tbody>
+                            </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="ferme">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+<script>
+function selectnumero(){
+    $("#listenum").trigger('click');
+}
+function choicenumber(number){
+    $("#message_numero").val(number);
+    $("#ferme").trigger('click');
+}
+function simplesms() {
+        var reg = new RegExp("^7[0768]\s?\d{3}(\s?\d{2}){2}$");
+    if (reg.test($("#message_numero").val())){
+        if($("#message_text").val() != ''){
+            if (confirm("{{'Confirmez l envoie des sms ?'|trans}}")) {
+                $('button').html("<i class=\"fa fa-spinner\"></i>");
+
+                document.location.href = "http://localhost/kmy/Sms/simplesms.php?message="+$("#message_numero").val()+";"+$("#message_text").val();
+
+            }
+        }else{ alert('teste vide')}
+        
+    }
+    else{ alert('numero incorrecte')}
+}
+</script>
+{% endblock %}

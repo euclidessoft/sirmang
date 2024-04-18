@@ -1,0 +1,137 @@
+{% extends 'accueil.html.twig' %}
+{% block title %} TAM- Assemblee Generale  {% endblock %}
+{% block ag %} class="btn btn-primary mt-3" {% endblock %}
+
+{% block body %}
+<div class="row">
+<div class="col-lg-12 mb-5">
+    <h3 class="text-bold">
+        <i class="fa fa-user-cog"></i>
+        {{ 'ASSEMBLEE GENERALE'|trans }}
+    </h3>
+    {% for message in app.flashes('notice')%}
+    <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message|trans }}
+    </div>
+    {% endfor%}
+    <table class="table table-success-light table-bordered table-hover table-striped" id="liste">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    {{ 'Photo'|trans }}
+                </th>
+                <th>
+                    {{ 'Identifiant'|trans }}
+                </th>
+                <th>
+                    {{ 'Nom et Prénom'|trans }}
+                </th>
+                <th>
+                    {{ 'Zone'|trans }}
+                </th>
+                <th class="text-center">
+                    {{ 'Téléphone'|trans }}
+                </th>
+                <th class="text-center">
+                    {{ 'Profession'|trans }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td data-label="{{ 'Photo'|trans }}">
+                    <b><a href="{{ path('security_user', { user : user.id })}}">
+                        {% if user.sexe == "Monsieur" %}
+                        <img src="{{asset('images/avatar.jpg') }}" width="50" alt="Photo" class="rounded-circle" />
+                        {% else %}
+                        <img src="{{asset('images/avatar-femme.jpg') }}" width="50" alt="Photo" class="rounded-circle" />
+                        {% endif %}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Identifiant'|trans }}">
+                   <b> <a href="{{ path('security_user', { user : user.id })}}">
+                        {{ user.username|upper }}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Prénom'|trans }}">
+                   <b> <a href="{{ path('security_user', { user : user.id })}}">
+                        {{ user.nom|upper }} {{ user.prenom }}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Zone'|trans }}">
+                    <b><a href="{{ path('security_user', { user : user.id })}}">
+                        {{ user.zone.nom }}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Téléphone'|trans }}" class="phone">
+                   <b> <a href="{{ path('security_user', { user : user.id })}}">
+                        {{ user.phone }}
+                    </a></b>
+                </td>
+                <td data-label="{{ 'Profession'|trans }}" class="text-center">
+                   <b> <a href="{{ path('security_user', { user : user.id })}}">
+                        {{ user.profession }}
+                    </a></b>
+                </td>
+               
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+
+        </div>
+    </div>
+</div>
+</div>
+{% block scripts %}
+<script>
+    function userdisable(id) {
+        if (confirm("{{ 'Voulez-vous vraiment désactiver cet utilisateur ?'|trans }}")) {
+            $('#btn' + id).html("<img src='{{ asset('images/ajax-loader.gif')}}' width='24' />");
+            $.ajax({
+                type: "POST",
+                url: "{{path('security_user_disable')}}",
+                data: "usr=" + id,
+                success: function(data) {
+                    if (data['ok'] != '') {
+                        $('#btn' + id).attr('class', 'btn btn-shadow btn-td btn-normal btn-success');
+                        $('#btn' + id).attr('onclick', 'userenable(' + id + ')');
+                        $('#btn' + id).html("<i class='fa fa-lock-open'></i> {{'Activer'|trans}}");
+                    }
+                },
+                error: function() {
+                    alert("{{ 'La requête n\'a pas abouti'|trans}}");
+                }
+            });
+        }
+
+    }
+
+    function userenable(id) {
+        if (confirm("{{ 'Voulez-vous vraiment activer cet utilisateur ?'|trans }}")) {
+            $('#btn' + id).html("<img src='{{ asset('images/ajax-loader.gif')}}' width='24' />");
+            $.ajax({
+                type: "POST",
+                url: "{{path('security_user_enable')}}",
+                data: "usr=" + id,
+                success: function(data) {
+                    if (data['ok'] != '') {
+                        $('#btn' + id).attr('class', 'btn btn-shadow btn-td btn-normal btn-danger');
+                        $('#btn' + id).attr('onclick', 'userdisable(' + id + ')');
+                        $('#btn' + id).html("<i class='fa fa-user-lock'></i> {{'Désactiver'|trans}}");
+                    }
+                },
+                error: function() {
+                    alert("{{ 'La requête n\'a pas abouti'|trans}}");
+                }
+            });
+        }
+
+    }
+
+</script>
+{% endblock %}
+{% endblock %}

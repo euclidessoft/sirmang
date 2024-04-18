@@ -1,0 +1,60 @@
+{% extends 'layout3.html.twig' %}
+
+{% block activite %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse /  {{ cellule.nom }} / Activite</h3>
+{% for message in app.flashes('notice')%}
+    <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message|trans }}
+    </div>
+    {% endfor%}
+<div class="row">
+    <div class="col-12"><h4 style="display: inline;">{{ activite.date|date('d/m/Y') }} : {{ activite.nom}} &agrave; {{ activite.Lieu }}</h4>
+        {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+             <a  class="btn btn-primary pull-right" href="{{ path('activitecellule_depense', {'activitecellule': activite.id}) }}">
+             Nouvelle depense</a>
+        {% endif %}
+    </div>
+    
+    </div>
+    <h2> Listes des depenses de  l'activite</h2>
+    <table width="100%" class="table table-success-light table-bordered table-hover table-striped" id="liste">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Rubrique</th>
+                <th>Responsable</th>
+                <th>Montant</th>
+                {% if is_granted('ROLE_MODIF_FIN_CELL') %}<th>Actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for depense in depenses %}
+            <tr>
+                <td>{{ depense.date|date('d/m/Y')}}</td>
+                <td>{{ depense.rubrique.nom }}</td>
+                <td>{{ depense.motif }}</td>
+                <td>{{ depense.montant|number_format(0, '', ' ')}}</td>
+                {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+                <td>
+                    <a class="btn btn-success" href="{{ path('activitecellule_depense_edit', {'depense': depense.id}) }}"><i class="fa fa-edit"></i> Modifier</a>
+                    {{ include('activitecellule/_delete_depense_form.html.twig') }}
+                </td>
+                {% endif %}
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+    
+        </div>
+    </div>
+{% endblock %}

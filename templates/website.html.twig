@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>home</title>
+
+   <!-- swiper css link  -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+   <!-- font awesome cdn link  -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+   <!-- custom css file link  -->
+   <link rel="stylesheet" href="{{ asset('images/css/style.css')}}">
+
+</head>
+<body>
+   
+<!-- header section starts  -->
+
+<section class="header" id="header">
+
+   <a href="{{ path('website_index')}}" class="logo"><img src="{{ asset('images/images/logo.JPG')}}" width="45"/> </a>
+   <a href="{{ path('security_login')}}" class="btn bouton">espace membre</a>
+
+   <nav class="navbar">
+      <a href="{{ path('website_index')}}" {% block home %} {% endblock %}>Accueil</a>
+      <a href="{{ path('website_presentation')}}" {% block presentation %} {% endblock %}>Pr&eacute;sentation</a>
+      <a href="{{ path('website_evenement')}}" {% block evenement %} {% endblock %}>Ev&egrave;nement</a>
+      <a href="{{ path('website_gallery')}}" {% block galerie %} {% endblock %}>Galerie</a>
+      <a href="{{ path('website_partenaire')}}" {% block partenaire %} {% endblock %}>Partenaires</a>
+      <a href="{{ path('website_index')}}" {% block contact %} {% endblock %}>Contact</a>
+   </nav>
+
+   <div id="menu-btn" class="fas fa-bars"></div>
+
+</section>
+
+{% block body%}
+
+
+{% endblock %}
+<!-- footer section starts  -->
+
+<section class="footer">
+
+   <div class="box-container">
+
+      <div class="box">
+         <h3>Menu</h3>
+         <a href="{{path('website_index')}}"> <i class="fas fa-angle-right"></i> Accueil</a>
+         <a href="{{path('website_presentation')}}"> <i class="fas fa-angle-right"></i> Presentation</a>
+         <a href="{{path('website_evenement')}}"> <i class="fas fa-angle-right"></i> Evenement</a>
+         <a href="{{path('website_gallery')}}"> <i class="fas fa-angle-right"></i> Galerie</a>
+         <a href="{{path('website_partenaire')}}"> <i class="fas fa-angle-right"></i> Partenaires</a>
+      </div>
+
+      <div class="box">
+         <h3>Autres liens</h3>
+         <a href="/registration"> <i class="fas fa-angle-right"></i> Devenir Membre</a>
+         <a href="#"> <i class="fas fa-angle-right"></i> termes et conditons</a>
+         <a href="#"> <i class="fas fa-angle-right"></i> Autre lien</a>
+         <a href="#"> <i class="fas fa-angle-right"></i> autrelien</a>
+      </div>
+
+      <div class="box">
+         <h3>contacts</h3>
+         <a href="#"> <i class="fas fa-phone"></i> 33 000 00 00 </a>
+         <a href="#"> <i class="fas fa-phone"></i> 75 000 00 00 </a>
+         <a href="#"> <i class="fas fa-envelope"></i> tam@tam.sn </a>
+         <a href="#"> <i class="fas fa-map"></i> Touba, Diourbel - Senegal </a>
+      </div>
+
+      <div class="box">
+         <h3>Suivez nous sur </h3>
+         <a href="https://web.facebook.com/communicationtam/?_rdc=1&_rdr" target="blank"> <i class="fab fa-facebook-f"></i> facebook </a>
+         <a href="https://twitter.com/taminfos" target="blank"> <i class="fab fa-twitter"></i> twitter </a>
+         <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
+         <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
+      </div>
+
+   </div>
+
+   <div class="credit"> Touba Assistance Medicale | tous droits reserv&eacute;s! </div>
+
+</section>
+
+<!-- footer section ends -->
+
+
+
+
+
+
+
+
+
+<script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+<script>
+    $(window).scroll(function() {
+        if (document.body.clientWidth <= 767) {
+            if ($(this).scrollTop() > 10) {
+               // $('#header').removeClass('header');
+                $('#header').addClass('header1');
+            } else {
+                $('#header').removeClass('header1');
+               // $('#header').addClass('header');
+            }
+        } else {
+            if ($(this).scrollTop() > 10) {
+                //$('#header').removeClass('header');
+                $('#header').addClass('header1');
+            } else {
+                $('#header').removeClass('header1');
+                //$('#header').addClass('header');
+            }
+        }
+    });
+
+    let menu = document.querySelector('#menu-btn');
+let navbar = document.querySelector('.header .navbar');
+
+menu.onclick = () =>{
+   menu.classList.toggle('fa-times');
+   navbar.classList.toggle('active');
+};
+
+window.onscroll = () =>{
+   menu.classList.remove('fa-times');
+   navbar.classList.remove('active');
+};
+</script>
+
+</body>
+</html>

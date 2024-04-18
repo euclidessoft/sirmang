@@ -1,0 +1,49 @@
+{% extends 'layout1.html.twig' %}
+{% block title %} {{ 'creer nouveau membre'|trans }} {% endblock %}
+{% block cellule %} class="active" {% endblock %}
+{% block body %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="col-lg-8 offset-lg-2 mt-5 mb-5 pb-1 fond-inner">
+            <h4 class="mt-4 text-bold">
+                <i class="fa fa-user-plus"></i>
+                {{ 'Nouveau Membre'|trans }}
+            </h4>
+            {% for message in app.flashes('notice')%}
+            <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    &times;
+                </button>
+                {{ message|trans }}
+            </div>
+            {% endfor%}
+
+             {{ include('security/security/userform.html.twig') }}
+             <br/>
+        </div>
+</div>
+{% block scripts %}
+<script>
+
+
+function send() {
+     $('#confirm').html("<i class='fa fa-spinner'></i>");
+     $('#form').submit();
+}
+
+function verif() {
+    $('#civilite').html($('#registration_sexe  option:selected').val());
+    $('#prenom').html($('#registration_prenom').val());
+    $('#nom').html($('#registration_nom').val());
+    $('#datenaiss').html($('#registration_birthday').val());
+    $('#lieunaiss').html($('#registration_lieunaiss').val());
+    $('#adresse').html($('#registration_adresse').val());
+    $('#telephone').html($('#registration_phone').val());
+    $('#email').html($('#registration_email').val());
+}
+
+</script>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'layout4.html.twig' %}
+
+{% block activite %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse /  Activite / Rubriques depenses</h3>
+
+<div class="row">
+    <div class="col-12">
+        {% if is_granted('ROLE_MODIF_FIN_BEN') %}
+        <a  class="btn btn-success pull-right mb-3" href="{{ path('rubrique_new') }}">Nouvelle Rubrique</a>
+        {% endif %}
+    </div>
+    </div>
+
+    <table width="100%" class="table table-success-light table-bordered table-hover table-striped" id="liste">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                {% if is_granted('ROLE_MODIF_FIN_BEN') %}<th>actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for rubrique in rubriques %}
+            <tr>
+                <td>{{ rubrique.nom }}</td>
+                {% if is_granted('ROLE_MODIF_FIN_BEN') %}
+                <td>
+                    <a class="btn btn-success" href="{{ path('rubrique_edit', {'id': rubrique.id}) }}"><i class="fa fa-edit"></i>Modifier</a>
+                    {{ include('rubrique/_delete_form.html.twig') }}
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

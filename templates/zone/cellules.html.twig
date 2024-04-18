@@ -1,0 +1,57 @@
+{% extends 'layout1.html.twig' %}
+
+{% block title %}Listes des cellules{% endblock %}
+{% block zone %} class="active" {% endblock %}
+
+{% block body %}
+    <h1>Zone {{ zone.nom }} - Listes des cellules</h1>
+    <div class="col-12"><a  class="btn btn-success pull-right mb-3" href="{{ path('zone_show', {'id': zone.id}) }}">Retour</a></div>
+
+    <table class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cellule in cellules %}
+            <tr>
+                <td>
+                    {% if  is_granted('ROLE_AFF_ADMIN_CELL') %}
+                        {% if (is_granted('ROLE_MODIF_ADMIN_CELL') and not is_granted('ROLE_MODIF_ADMIN_BEN')) %}
+                            {% if app.user.cellule == cellule %}
+                                <a href="{{ path('cellule_show', {'id': cellule.id, 'zone' : zone.id}) }}"><b>{{ cellule.nom }}</b></a>
+                            {% else %}
+                                <b>{{ cellule.nom }}</b>
+                            {% endif %}
+                        {% elseif  is_granted('ROLE_PRESI_CELL') and not is_granted('ROLE_PRESI_ZONE')%}
+                            {% if app.user.cellule == cellule %}
+                                <a href="{{ path('cellule_show', {'id': cellule.id, 'zone' : zone.id}) }}"><b>{{ cellule.nom }}</b></a>
+                            {% else %}
+                                <b>{{ cellule.nom }}</b>
+                            {% endif %}
+                        {% elseif  is_granted('ROLE_PRESI_ZONE') and not is_granted('ROLE_PRESI')%}
+                            {% if app.user.zone == zone %}
+                            <a href="{{ path('cellule_show', {'id': cellule.id, 'zone' : zone.id}) }}"><b>{{ cellule.nom }}</b></a>
+                            {% else %}
+                            <b>{{ cellule.nom }}</b>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('cellule_show', {'id': cellule.id, 'zone' : zone.id}) }}"><b>{{ cellule.nom }}</b></a>
+                        {% endif %}
+                    {% else %}
+                    <b>{{ cellule.nom }}</b>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

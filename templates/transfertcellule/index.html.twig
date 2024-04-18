@@ -1,0 +1,61 @@
+{% extends 'layout3.html.twig' %}
+
+{% block caisse %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse / {{ cellule.nom }} / transfert</h3>
+<div class="row">
+    <div class="col-12">
+        {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+        <a  class="btn btn-success mb-3" href="{{ path('transfertcellule_new', { cellule: cellule.id }) }}">
+            <i class="fa fa-exchange"></i>
+            <i class="fa fa-money"></i>
+            Nouveau Transferer
+        </a>
+        {% endif %}
+        {% for message in app.flashes('notice')%}
+        <div class="col-lg-12 mt-4 alert alert-success alert-dismissible fade show radius-10 shadow-black" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message|trans }}
+        </div>
+        {% endfor%}
+    <a  class="btn btn-primary pull-right mb-3" href="{{ path('finance_cellule', { cellule: cellule.id }) }}"><i class="fa fa-undo"></i> Retour</a></div>
+    </div>
+    <h1>Listes transferts</h1>
+
+    <table width="100%" class="table table-success-light table-bordered table-hover table-striped"  id="liste">
+        <thead>
+            <tr>
+                
+                <th>Date</th>
+                <th>Montant</th>
+                <th>Motif</th>
+                {% if is_granted('ROLE_MODIF_FIN_CELL') %}<th>actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for transfert in transferts %}
+            <tr>
+                <td>{{ transfert.date ? transfert.date|date('d/m/Y') : '' }}</td>
+                <td>{{ transfert.montant|number_format(0, '', ' ') }}</td>
+                <td>{{ transfert.motif }}</td>
+                {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+                <td>
+                    <a class="btn btn-success" href="{{ path('transfertcellule_edit', { 'id': transfert.id, 'cellule' : cellule.id}) }}"><i class="fa fa-edit"></i> Modifier</a>
+                    {{ include('transfertcellule/_delete_form.html.twig') }}
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'layout4.html.twig' %}
+{% block title %} TAM- Assemblee Generale  {% endblock %}
+{% block assignation %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse Federation Dahira / Assignations</h3>
+
+<div class="row">
+    <div class="col-12">
+        <a  class="btn btn-primary mb-3" href="{{ path('bureau_assignation_all') }}"><i class="fa fa-list"></i> Toutes</a>
+        
+        {% if is_granted('ROLE_MODIF_FIN_BEN') %}
+            {% if assignation is null %}
+            <a  class="btn btn-success pull-right mb-3" href="{{ path('assignation_new') }}"><i class="fa fa-plus"></i> Nouvelle Assignation</a></div>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% for message in app.flashes('notice')%}
+    <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message|trans }}
+    </div>
+    {% endfor%}
+    <table width="100%" class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Date limite</th>
+                <th>Evenement</th>
+                <th>Montant</th>
+                {% if is_granted('ROLE_MODIF_FIN_BEN') %}
+                    <th>actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% if assignation is not null %}
+            <tr>
+                <td>{{ assignation.dateeven ? assignation.dateeven|date('d/m/Y') : '' }}</td>
+                <td>{{ assignation.activite.nom }}</td>
+                <td>{{ assignation.montant|number_format(0, '', ' ') }}</td>
+                {% if is_granted('ROLE_MODIF_FIN_BEN') %}
+                    <td>
+                        <a class="btn btn-primary" href="{{ path('assignation_edit', {'id': assignation.id}) }}"><i class="fa fa-edit"> </i>Modifier</a>
+                        {{ include('assignation/_delete_form.html.twig') }}
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+
+
+{% endblock %}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{{ nom_site }}</title>
+    {% block stylesheets %}
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/homepage.css') }}" rel="stylesheet">
+    {% endblock %}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    {% block javascrits %}
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+<div class="row">
+    <div class="col-md-6 offset-md-3 fond">
+<div class="card border-dark mt-4 mb-3">
+    <div class="card-header bg-light border-botom border-dark text-dark py-4 text-bold">
+        <i class="fa fa-money-bill-wave"></i>
+        {{ 'Nouveau mot de passe'|trans }}
+    </div>
+            <div class="card-body pt-5">
+    {% for message in app.flashes('notice')%}
+    <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black mt-2">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor%}
+
+    <div class="col-10 offset-1">
+    {{ form_start(form)}}
+    <div class="form-group mt-4">
+        {{ form_row(form.password, {'label':false, 'attr' : { 'placeholder' : 'Nouveau mot de passe', 'autofocus':'autofocus'}}) }}
+    </div>
+    <div class="form-group mt-4">
+
+        {{ form_row(form.confirm, {'label':false, 'attr' : { 'placeholder' : 'Confirmer mot de passe'}})}}
+    </div>
+    <div class="centrer mt-4">
+        <button type="submit" class="btn btn-dark mt-4 mb-4 pl-4 pr-4">
+            <i class="fa fa-save"></i>
+            {{ 'Enregistrer'|trans }}
+        </button>
+    </div>
+    {{ form_rest(form)}}
+    {{ form_end(form)}}
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ asset('js/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/fos_js_routes.js') }}"></script>
+    </script>
+    {% endblock %}
+</body>
+
+</html>

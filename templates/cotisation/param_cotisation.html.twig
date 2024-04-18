@@ -1,0 +1,49 @@
+{% extends 'layout4.html.twig' %}
+
+{% block cotisation %} class="active" {% endblock %}
+
+{% block body %}
+    <h3><i class="fa fa-suitcase"></i> Parametres /  {{ app.user.cellule.nom }} / Cotisations</h3>
+    <div class="row">
+        <div class="col-12">
+            {% if is_granted('ROLE_MODIF_FIN_CELL') and cotisations is not null %}
+                <a  class="btn btn-success mb-3" href="{{ path('cotisation_new', {'cellule' : app.user.cellule.id}) }}">
+                    <i class="fa fa-exchange"></i>
+                    <i class="fa fa-money"></i>Nouvelle Cotisation
+                </a>
+            {% endif %}
+            <a  class="btn btn-primary pull-right mb-3" href="{{ path('security_profile') }}"><i class="fa fa-undo"></i> Retour</a></div>
+    </div>
+
+    <table width="100%" class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+
+            <th>Montant</th>
+            {% if is_granted('ROLE_MODIF_FIN_CELL') %}<th>actions</th>{% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for cotisation in cotisations %}
+            <tr>
+                <td>{{ cotisation.montant|number_format(0, '', ' ') }}</td>
+                {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+                    <td>
+                        <a class="btn btn-success" href="{{ path('cotisation_edit', {'id': cotisation.id, 'cellule' : app.user.cellule.id}) }}"><i class="fa fa-edit"></i> Modifier</a>
+
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+
+        </div>
+    </div>
+{% endblock %}

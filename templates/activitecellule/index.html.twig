@@ -1,0 +1,98 @@
+{% extends 'layout3.html.twig' %}
+{% block title %} TAM- Assemblee Generale  {% endblock %}
+{% block activite %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse/ {{ cellule.nom }}  /Activites</h3>
+<div class="row">
+    <div class="col-12">
+        <a  class="btn btn-primary" href="{{ path('activitecellule_all', { cellule : cellule.id } ) }}"><i class="fa fa-list"></i> Toutes</a>
+       
+        {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+            <a  class="btn btn-success pull-right mb-3" href="{{ path('activitecellule_new', { cellule : cellule.id }) }}">
+                <i class="fa fa-plus"></i> Nouvelle Activite
+            </a>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+    <div class="panel panel-primary">
+        
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+    {% for message in app.flashes('notice')%}
+    <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message|trans }}
+    </div>
+    {% endfor%}
+    
+    <table width="100%" class="table table-striped table-bordered table-hover" id="liste">
+        <thead>
+            <tr>
+                <th>
+                    {{ 'Date'|trans }}
+                </th>
+                <th>
+                    {{ 'Nom'|trans }}
+                </th>
+                <th>
+                    {{ 'Lieu'|trans }}
+                </th>
+                <th>
+                    {{ 'Budjet'|trans }}
+                </th>
+                <th>
+                    {{ 'Actions'|trans }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activite in activites %}
+            <tr>
+                <td>{{ activite.date ? activite.date|date('d/m/Y') : '' }}</td>
+                <td>{{ activite.nom }}</td>
+                <td>{{ activite.lieu }}</td>
+                <td>{{ activite.budjet }}</td>
+                <td>
+                    <a onclick="btn()" id="btn1" class="btn btn-success" href="{{ path('activitecellule_show', {'id': activite.id}) }}"><i class="fa fa-search"> </i>Afficher</a>
+                    {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+                        <a onclick="btn()" id="btn2" class="btn btn-primary" href="{{ path('activitecellule_edit', {'cellule' : cellule.id, 'id': activite.id}) }}"><i class="fa fa-edit"> </i>Modifier</a>
+                        <a onclick="btn()" id="btn3" class="btn btn-secondary" href="{{ path('activitecellule_cloturer', {'activitecellule': activite.id}) }}"><i class="fa fa-lock"> </i> cloturer</a>
+                        {{ include('activitecellule/_delete_form.html.twig') }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+{% block scripts %}
+<script>
+    function btn(){
+        $('#btn1').html("<div class=\"spinner-border spinner-border-sm text-light\" role=\"status\"><span class=\"sr-only\">Loading...</span></div>");
+        $('#btn2').html("<div class=\"spinner-border spinner-border-sm text-light\" role=\"status\"><span class=\"sr-only\">Loading...</span></div>");
+        $('#btn3').html("<div class=\"spinner-border spinner-border-sm text-light\" role=\"status\"><span class=\"sr-only\">Loading...</span></div>");
+        $('#btn4').html("<div class=\"spinner-border spinner-border-sm text-light\" role=\"status\"><span class=\"sr-only\">Loading...</span></div>");
+
+    }
+
+</script>
+{% endblock %}
+{% endblock %}

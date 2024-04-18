@@ -1,0 +1,31 @@
+{% extends 'layout1.html.twig' %}
+
+{% block title %}Zone - Listes des regions{% endblock %}
+{% block zone %} class="active" {% endblock %}
+
+{% block body %}
+    <h1>Zone {{ zone.nom }} - Listes des regions</h1>
+    <div class="col-12"><a  class="btn btn-success pull-right mb-3" href="{{ path('zone_show', {'id': zone.id}) }}">Retour</a></div>
+
+    <table class="table table-success-light table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for region in regions %}
+            <tr>
+                <td><b>{{ region.nom }}</b></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

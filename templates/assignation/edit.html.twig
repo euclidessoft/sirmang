@@ -1,0 +1,30 @@
+{% extends 'layout4.html.twig' %}
+
+{% block title %}Zone{% endblock %}
+{% block assignation %} class="active" {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-12 text-right mt-3">  
+          <a  class="btn btn-primary" href="{{ path('bureau_assignation_index') }}">Retour</a>
+</div>
+</div>
+<div class="row">
+    
+
+</div>
+    <div class="col-lg-12">
+        <div class="col-lg-6 offset-lg-3 mt-5 mb-5 pb-1 fond-inner">
+            <h4 class="mt-4 mb-5 text-bold">
+                {{ 'Modification Assignation'|trans }} 
+            </h4>
+
+    {{ include('assignation/_form.html.twig', {'button_label': 'Update'}) }}
+
+    
+
+    
+    </div>
+    </div>
+    </div>
+{% endblock %}

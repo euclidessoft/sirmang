@@ -1,0 +1,38 @@
+{% extends 'layout3.html.twig' %}
+
+{% block assignation %}Assignation{% endblock %}
+
+{% block body %}
+    <h1>Assignation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ assignation.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ assignation.date ? assignation.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Evenement</th>
+                <td>{{ assignation.evenement }}</td>
+            </tr>
+            <tr>
+                <th>Montant</th>
+                <td>{{ assignation.montant }}</td>
+            </tr>
+            <tr>
+                <th>Current</th>
+                <td>{{ assignation.current ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('assignation_index') }}">back to list</a>
+
+    <a href="{{ path('assignation_edit', {'id': assignation.id}) }}">edit</a>
+
+    
+{% endblock %}

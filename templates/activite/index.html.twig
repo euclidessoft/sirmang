@@ -1,0 +1,133 @@
+{% extends 'layout4.html.twig' %}
+{% block title %} TAM- Assemblee Generale  {% endblock %}
+{% block activite %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-suitcase"></i> Caisse Nationale  /Activites</h3>
+<div class="row">
+    <div class="col-12">
+        <a  class="btn btn-primary" href="{{ path('activite_all') }}"><i class="fa fa-list"></i> Toutes</a>
+        {% if is_granted('ROLE_MODIF_FIN_BEN') %}
+        <a  class="btn btn-success pull-right mb-3" href="{{ path('activite_new') }}"><i class="fa fa-plus"></i> Nouvelle Activite</a>
+        {% endif %}
+        <a  class="btn btn-primary pull-right mb-3 mr-2" href="{{ path('rubrique_index') }}"><i class="fa fa-list"></i> Rubriques depenses</a>
+    </div>
+        
+    </div>
+<div class="row">
+    <div class="col-12">
+    
+    {% for message in app.flashes('notice')%}
+    <div class="alert alert-success alert-dismissible fade show radius-10 shadow-black">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{ message|trans }}
+    </div>
+    {% endfor%}
+    
+    <table width="100%" class="table table-striped table-bordered table-hover" id="liste">
+        <thead>
+            <tr>
+                <th>
+                    {{ 'Date'|trans }}
+                </th>
+                <th>
+                    {{ 'Nom'|trans }}
+                </th>
+                <th>
+                    {{ 'Lieu'|trans }}
+                </th>
+                <th>
+                    {{ 'Budjet'|trans }}
+                </th>
+                <th>
+                    {{ 'Actions'|trans }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activite in activites %}
+            <tr>
+                <td>{{ activite.date ? activite.date|date('d/m/Y') : '' }}</td>
+                <td>{{ activite.nom }}</td>
+                <td>{{ activite.lieu }}</td>
+                <td>{{ activite.budjet }}</td>
+                <td>
+                    <a class="btn btn-success" href="{{ path('activite_show', {'id': activite.id}) }}"><i class="fa fa-search"> </i>Afficher</a>
+                    {% if is_granted('ROLE_MODIF_FIN_BEN') %}
+                        <a class="btn btn-primary" href="{{ path('activite_edit', {'id': activite.id}) }}"><i class="fa fa-edit"> </i>Modifier</a>
+                        <a class="btn btn-secondary" href="{{ path('activite_cloturer', {'activite': activite.id}) }}"><i class="fa fa-lock"> </i> cloturer</a>
+                        {{ include('activite/_delete_form.html.twig') }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+{% block scripts %}
+<script>
+    function userdisable(id) {
+        if (confirm("{{ 'Voulez-vous vraiment désactiver cet utilisateur ?'|trans }}")) {
+            $('#btn' + id).html("<img src='{{ asset('images/ajax-loader.gif')}}' width='24' />");
+            $.ajax({
+                type: "POST",
+                url: "{{path('security_user_disable')}}",
+                data: "usr=" + id,
+                success: function(data) {
+                    if (data['ok'] != '') {
+                        $('#btn' + id).attr('class', 'btn btn-shadow btn-td btn-normal btn-success');
+                        $('#btn' + id).attr('onclick', 'userenable(' + id + ')');
+                        $('#btn' + id).html("<i class='fa fa-lock-open'></i> {{'Activer'|trans}}");
+                    }
+                },
+                error: function() {
+                    alert("{{ 'La requête n\'a pas abouti'|trans}}");
+                }
+            });
+        }
+
+    }
+
+    function userenable(id) {
+        if (confirm("{{ 'Voulez-vous vraiment activer cet utilisateur ?'|trans }}")) {
+            $('#btn' + id).html("<img src='{{ asset('images/ajax-loader.gif')}}' width='24' />");
+            $.ajax({
+                type: "POST",
+                url: "{{path('security_user_enable')}}",
+                data: "usr=" + id,
+                success: function(data) {
+                    if (data['ok'] != '') {
+                        $('#btn' + id).attr('class', 'btn btn-shadow btn-td btn-normal btn-danger');
+                        $('#btn' + id).attr('onclick', 'userdisable(' + id + ')');
+                        $('#btn' + id).html("<i class='fa fa-user-lock'></i> {{'Désactiver'|trans}}");
+                    }
+                },
+                error: function() {
+                    alert("{{ 'La requête n\'a pas abouti'|trans}}");
+                }
+            });
+        }
+
+    }
+    function recherche(){
+         $('#send').html("<i class='fa fa-spinner'></i>");
+
+    }
+
+</script>
+{% endblock %}
+{% endblock %}

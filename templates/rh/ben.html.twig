@@ -1,0 +1,19 @@
+{% extends 'layout1.html.twig' %}
+{% block title %} TAM- Assemblee Generale  {% endblock %}
+{% block ben %} class="active" {% endblock %}
+
+{% block body %}
+<h3><i class="fa fa-bank"></i> Bureau Ex&eacute;cutif National</h3>
+{% if is_granted('ROLE_ADMIN') %}
+<div class="row">
+  <div class="col-12 text-right mt-3">  
+        <a  class="btn btn-primary" href="{{ path('poste_ben_index') }}"><i class="fa fa-briefcase"></i> Postes</a>
+</div>
+</div>
+{% endif %}
+
+{% block scripts %}
+
+
+{% endblock %}
+{% endblock %}

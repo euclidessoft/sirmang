@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{{asset('images/favicon.ico')}}" rel="shortcut icon">
+
+    <title>{{ nom_site }}</title>
+    {% block stylesheets %}
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{{ asset('css/datatables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/homepage.css') }}" rel="stylesheet">
+    {% endblock %}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    {% block javascrits %}
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+<div class="card fond mt-4">
+            <div class="card-body">
+                <div class="col-md-12 text-center">
+                    <img src="{{asset('images/logo.JPG') }}" width="150" alt="Photo" class="rounded-circle" />
+                </div>
+    {% for message in app.flashes('change')%}
+    <div class="alert alert-success alert-dismissible fade show radius-10">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            &times;
+        </button>
+        {{ message|trans }}
+    </div>
+    {% endfor%}
+    {% for message in app.flashes('notice')%}
+    <div class="alert alert-danger alert-dismissible fade show radius-10 shadow-black">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            &times;
+        </button>
+        {{ message|trans }}
+    </div>
+    {% endfor%}
+
+    {% if error %}
+    <div class="alert alert-danger alert-dismissible fade show radius-10 shadow-black">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            &times;
+        </button>
+        {{ 'Adresse email ou mot de passe incorrecte'|trans }}
+    </div>
+    {% endif %}
+<div class="col-10 offset-1 mt-2">
+<form action="{{ path('security_login') }}" method="POST" class="form-signin">
+    <div class="form-group mb-4">
+        <input type="email" name="_username" id="_username" value="{{ last_user }}" placeholder="{{ 'Adresse email'|trans }}" class="form-control" required />
+    </div>
+    <div class="form-group mb-4">
+        <input type="password" name="_password" id="_password" placeholder="{{ 'Mot de passe'|trans }}" class="form-control" />
+    </div>
+    <div class="form-group mb-4">
+        <div class="row text-center">
+            <div class="col-md-7">
+       <b> <a href="{{ path('security_forgotten_password')}}">
+            {{ 'Mot de passe oublié'|trans }}
+        </a></b>
+        </div>
+        <div class="col-md-5"> 
+        <b> <a href="{{ path('security_register')}}">
+            {{ 'inscription'|trans }}
+        </a></b>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3 pl-4 pr-4">
+        {{ 'Se connecter'|trans }}
+        <i class="fa fa-sign-in-alt"></i>
+    </button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ asset('js/datatables.min.js') }}"></script>
+    <script src="{{ asset('js/fos_js_routes.js') }}"></script>
+    </script>
+    {% endblock %}
+</body>
+
+</html>

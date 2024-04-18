@@ -1,0 +1,52 @@
+{% extends 'layout3.html.twig' %}
+
+{% block title %}Partenaire index{% endblock %}
+{% block partenaire %}class="active"{% endblock %}
+
+{% block body %}
+<h1>Listes des Partenaires</h1>
+<div class="row">
+<div class="col-12">
+    {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+    <a  class="btn btn-success pull-right mb-3" href="{{ path('partenairecellule_new', { 'cellule' : app.user.cellule.id }) }}">Nouveau Partenaire</a>
+    {% endif %}
+</div>
+</div>
+
+<table width="100%" class="table table-success-light table-bordered table-hover table-striped"  id="liste">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Phone</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for partenaire in partenairecellules %}
+            <tr>
+                <td>{{ partenaire.nom }}</td>
+                <td>{{ partenaire.adresse }}</td>
+                <td>{{ partenaire.phone }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('partenairecellule_show', { 'cellule' : app.user.cellule.id, 'id': partenaire.id}) }}"><i class="fa fa-search"></i> Afficher</a>
+                    {% if is_granted('ROLE_MODIF_FIN_CELL') %}
+                         <a class="btn btn-success" href="{{ path('partenairecellule_edit', {'cellule' : app.user.cellule.id, 'id': partenaire.id}) }}"><i class="fa fa-edit"></i> Modifier</a>
+                        {{ include('partenairecellule/_delete_form.html.twig') }}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-12" id="exportexcel">
+
+        </div>
+    </div>
+{% endblock %}
