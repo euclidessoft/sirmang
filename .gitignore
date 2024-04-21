@@ -6,8 +6,8 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
-#/vendor/
-#/templates/security/security/profile.html.twig
+/vendor/
+/templates/security/security/boutons-admin.html.twig
 /.env
 ###< symfony/framework-bundle ###
 
