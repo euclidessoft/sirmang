@@ -96,6 +96,14 @@
     </div>
 </div>
 
+    {% if is_granted("ROLE_PRESI") %}
+        <a href="{{ path('security_admin_register') }}" class="btn btn-outline-success mb-2 mr-2 pull-right">
+            <i class="fa fa-user-plus"></i>
+            Ajouter nouveau Membre
+        </a>
+
+    {% endif %}
+
 
 <div class="row">
     <div class="col-md-12">

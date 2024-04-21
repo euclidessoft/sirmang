@@ -28,7 +28,8 @@ class User implements UserInterface
         'Vice President' => 'Vice President' ,
         'Secretaire' => 'Secretaire' ,
         'Tresorier' => 'Tresorier' ,
-        'commissaire au compte' => 'commissaire au compte' ,
+        'Commissaire au compte' => 'Commissaire au compte' ,
+        'Membre Simple' => 'Membre Simple' ,
     ];
     /*
     

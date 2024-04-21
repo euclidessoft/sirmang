@@ -699,7 +699,6 @@ class securityController extends AbstractController
                     case 'Vice President':
                     {
                         $user->setRoles(['ROLE_PRESI_CELL']);
-                        $user->setClient(true);
                         break;
                     }
                     case 'Secretaire':
@@ -712,10 +711,14 @@ class securityController extends AbstractController
                         $user->setRoles(['ROLE_MODIF_FIN_CELL']);
                         break;
                     }
-                    case 'commissaire au compte':
+                    case 'Commissaire au compte':
                     {
                         $user->setRoles(['ROLE_AFF_FIN_CELL']);
-                        $user->setLivreur(true);
+                        break;
+                    }
+                    case 'Membre Simple':
+                    {
+                        $user->setRoles(['ROLE_MEMBRE']);
                         break;
                     }
                 }
