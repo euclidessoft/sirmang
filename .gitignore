@@ -6,7 +6,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 #/var/
-/vendor/
+#/vendor/
 #/templates/security/security/profile.html.twig
 /.env
 ###< symfony/framework-bundle ###
