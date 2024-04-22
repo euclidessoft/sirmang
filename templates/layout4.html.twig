@@ -39,9 +39,9 @@
 
                     <li><a  href="{{ path('finance_national')}}" {% block caisse %}{% endblock %}><span><i class="fa fa-suitcase"></i></i></span>
                             <span>Caisses</span></a></li>
-{#                    #}
-{#                    <li><a  href="{{ path('cotisation', { mois : 1}) }}" {% block cotisation %}{% endblock %}><span><i class="fa fa-money"></i></span>#}
-{#                        <span>Cotisations</span></a></li>#}
+
+                    <li><a  href="{{ path('cotisation', { mois : 1}) }}" {% block cotisation %}{% endblock %}><span><i class="fa fa-money"></i></span>
+                        <span>Cotisations</span></a></li>
 
                     <li><a  href="{{ path('bureau_assignation_index') }}" {% block assignation %}{% endblock %}><span><i class="fa fa-money"></i></span>
                         <span>Assignations</span></a></li>

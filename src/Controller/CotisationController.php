@@ -11,6 +11,7 @@ use App\Entity\Creditcellule;
 use App\Entity\Credit;
 use App\Entity\Poste;
 use App\Entity\Recherche;
+use App\Form\CotismensuelType;
 use App\Form\RechercheType;
 use App\Form\CotisationType;
 use App\Repository\CotisationRepository;
@@ -94,7 +95,7 @@ class CotisationController extends AbstractController
     }
 
     /**
-     * @Route("/Cellule/{cellule}/", name="cotisation_cellule_one", methods={"GET"})
+     * @Route("/Cellule/{cellule}/", name="cotisation_cellule_one", methods={"GET","POST"})
      */
     public function one_index(Request $request, Cellule $cellule): Response
     {//cotisation des cellules
@@ -102,7 +103,8 @@ class CotisationController extends AbstractController
         {
             $annee = $this->getDoctrine()->getManager()->getRepository(Annee::class)->findOneBy(['current' => true]);
             $cotisation = new Cotismensuel();
-            $form = $this->createForm(CotisationType::class, $cotisation);
+            $cotisation->setAnnee($annee);
+            $form = $this->createForm(CotismensuelType::class, $cotisation);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -174,8 +176,9 @@ class CotisationController extends AbstractController
 
                 if ($form->isSubmitted() && $form->isValid()) {
                     $cotisation->setCellule($cellule);
-                    $cellule->getCotisation($cotisation);
+                    $cellule->setCotisation($cotisation);
                     $entityManager->persist($cotisation);
+                    $entityManager->persist($cellule);
                     $entityManager->flush();
                     $this->addFlash('notice' , 'Cotisation definie');
                     return $this->redirectToRoute('security_profile');
@@ -415,7 +418,7 @@ class CotisationController extends AbstractController
                             $credit = "20" + $membre;
                             $$membre = new Cotismensuel();
                             $user = $userrepo->find($membre);
-                            dump($user);
+//                            dump($user);
                             $$membre->setUser($user);
                             $$membre->setMontant($user->getCellule()->getCotisation()->getMontant());
                             $$membre->setAnnee($annee);

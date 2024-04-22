@@ -39,7 +39,7 @@
                     <li><a  href="{{ path('finance_cellule', {'cellule': cellule.id})}}" {% block caisse %}{% endblock %}><span><i class="fa fa-suitcase"></i></i></span>
                             <span>Caisses</span></a></li>
                     
-                    <li><a  href="{{ path('cotisation_cellule_one', { cellule : cellule.id}) }}" {% block cotisation %}{% endblock %}><span><i class="fa fa-money"></i></span>
+                    <li><a  href="{{ path('cotisation_cellule', { cellule : cellule.id, mois : 1}) }}" {% block cotisation %}{% endblock %}><span><i class="fa fa-money"></i></span>
                         <span>Cotisations</span></a></li>
                     
                     <li><a  href="{{ path('assignation_index', {'cellule' : cellule.id}) }}" {% block assignation %}{% endblock %}><span><i class="fa fa-money"></i></span>
