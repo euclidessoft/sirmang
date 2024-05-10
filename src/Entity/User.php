@@ -89,8 +89,7 @@ class User implements UserInterface
     public $test;
     
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="champ obligatoire")
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Email(message="email invalide")
      */
     private $email;
