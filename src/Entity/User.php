@@ -15,8 +15,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user")
  * @UniqueEntity(
- * fields ={"email"},
- * message = "Email deja utilise"
+ * fields ={"phone"},
+ * message = "Telephone deja utilise"
  *)
  */
 class User implements UserInterface

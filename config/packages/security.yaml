@@ -27,7 +27,7 @@ security:
         sakkane:
             entity: 
                class: App\Entity\User
-               property: email
+               property: phone
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
